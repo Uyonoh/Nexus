@@ -6,7 +6,8 @@ from .forms import CustomUserCreationForm, CustomLoginForm
 from django.contrib.auth.decorators import login_required
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.conf import settings    
-from store.models import Order, Product
+from products.models import Product
+from orders.models import Order
 
 
 @login_required

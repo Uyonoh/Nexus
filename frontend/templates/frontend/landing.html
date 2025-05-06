@@ -9,7 +9,7 @@
             <p class="lead">Get the latest and greatest tech products at the best prices.</p>
             <hr class="my-4">
             <p>Explore our wide selection of desktop and laptop computers, as well as individual components for office and gaming use.</p>
-            <a class="btn btn-primary btn-lg" href="{% url 'frontend:product_list' %}" role="button">Shop Now</a>
+            <a class="btn btn-primary btn-lg" href="{% url 'products:product_list' %}" role="button">Shop Now</a>
         </div>
 
         <div class="row">
@@ -17,21 +17,21 @@
                 <div class="category">
                     <h2>Desktops</h2>
                     <p>High-performance desktops for gaming and productivity.</p>
-                    <a href="{% url 'frontend:category_products' category='Desktop' %}" class="btn btn-secondary">View Desktops</a>
+                    <a href="{% url 'products:category_products' category='Desktops' %}" class="btn btn-secondary">View Desktops</a>
                 </div>
             </div>
             <div class="col-md-4 col-sm-10">
                 <div class="category">
                     <h2>Laptops</h2>
                     <p>Portable and powerful laptops for on-the-go use.</p>
-                    <a href="{% url 'frontend:category_products' category='Laptop' %}" class="btn btn-secondary">View Laptops</a>
+                    <a href="{% url 'products:category_products' category='Laptops' %}" class="btn btn-secondary">View Laptops</a>
                 </div>
             </div>
             <div class="col-md-4 col-sm-10">
                 <div class="category">
                     <h2>Components</h2>
                     <p>Individual components to build or upgrade your system.</p>
-                    <a href="{% url 'frontend:category_products' category='System Component' %}" class="btn btn-secondary">View Components</a>
+                    <a href="{% url 'products:category_products' category='System Components' %}" class="btn btn-secondary">View Components</a>
                 </div>
             </div>
         </div>

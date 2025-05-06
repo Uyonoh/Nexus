@@ -1,6 +1,9 @@
 import random
 from django.contrib.auth import get_user_model
-from store.models import Category, ProductType, Product, ProductImage, Inventory, Order, OrderItem, Review
+from products.models import *
+from orders.models import *
+from inventory.models import *
+from reviews.models import *
 from django.core.files.base import ContentFile
 from io import BytesIO
 from PIL import Image
