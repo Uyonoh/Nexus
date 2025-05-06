@@ -1,0 +1,49 @@
+{% extends 'base2.html' %}
+{% load component_tags %}
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+    <h1  class="container text-center text-3xl font-bold text-white">Products</h1>
+    <div class="row products">
+        {% for category, category_products in products.items %}
+            {% component "listingsection" category=category products=category_products %}
+            {% endcomponent %}
+        {% endfor %}
+
+    </div>
+
+    <style>
+        .product-container, .img-container, img {
+            width: inherit;
+        }
+
+        .product-container {
+            border-radius: 7px;
+            padding: 20px;
+            margin: 5px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.493);
+            border-bottom: 1px dotted #113;
+            /* margin-top: ; */
+        }
+
+        .product-container:hover {
+            cursor: pointer;
+            border: 1px solid rgb(10, 10, 207);
+        }
+
+        .products {
+            row-gap: 4rem;
+            border: 1px solid rgb(74, 79, 82);
+            border-radius: 5px;
+        }
+
+        .product-footer {
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+    </style>
+{% endblock %}
+

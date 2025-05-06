@@ -1,0 +1,53 @@
+{% extends 'base2.html' %}
+{% load component_tags %}
+
+
+{% block content %}
+    {% component "herosection" %}
+    {% endcomponent %}
+
+    <div class="py-4 px-6">
+        <div class="container mx-auto">
+          <div class="bg-blue-600/20 border border-blue-500/30 rounded-lg p-4 flex items-center justify-between">
+            <p class="text-sm md:text-base">
+              <span class="font-bold">🔥 Limited Time Offer:</span> Free
+              shipping on orders over $999 + 10% off all gaming laptops!
+            </p>
+            <button onclick=toProducts() class="text-xs md:text-sm bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded whitespace-nowrap">
+              Shop Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+    {% for category, category_products in products.items %}
+        {% component "categorysection" category=category products=category_products %}
+        {% endcomponent %}
+    {% endfor %}
+
+    <section class="py-16 px-6">
+        <div class="container mx-auto">
+          <div class="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl p-8 md:p-12 shadow-2xl">
+            <div class="flex flex-col md:flex-row items-center">
+              <div class="md:w-2/3 mb-8 md:mb-0 md:pr-8">
+                <h2 class="text-3xl font-bold mb-4">
+                  Build Your Dream PC
+                </h2>
+                <p class="text-gray-300 mb-6">
+                  Our PC Builder tool helps you create the perfect custom
+                  build with compatible parts, real-time pricing, and
+                  performance estimates. Start building your dream machine
+                  today!
+                </p>
+                <button class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-md font-medium transition-colors">
+                  Launch PC Builder
+                </button>
+              </div>
+              <div class="md:w-1/3">
+                <img src="https://images.unsplash.com/photo-1624705002806-5d72df19c3ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Custom PC Build" class="rounded-lg shadow-lg" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+{% endblock %}

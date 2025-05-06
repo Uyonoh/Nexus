@@ -1,0 +1,12 @@
+<div class="flex items-center {{classes}}">
+    <!-- {[...Array(5)].map((_, i) => <span key={i} class={`text-sm ${i < rating ? 'text-yellow-400' : 'text-gray-600'}`}>
+        ★
+      </span>)} -->
+    {% for i in "12345" %}
+        {% if forloop.counter <= rating %}
+            <span class="text-sm text-yellow-400">★</span>
+        {% else %}
+            <span class="text-sm text-gray-600">★</span>
+        {% endif %}
+    {% endfor %}
+  </div>

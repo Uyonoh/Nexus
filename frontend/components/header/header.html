@@ -1,0 +1,134 @@
+<!-- Header -->
+ {% load component_tags %}
+
+<header class="relative bg-gradient-to-r from-indigo-900 to-purple-900 text-white py-4 px-6 shadow-lg">
+    <nav class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+      <div class="flex items-center mb-4 md:mb-0">
+        <a href="/">
+          <h1 class="text-2xl font-bold tracking-tighter">
+            <span class="text-blue-300">Tech</span>
+            <span class="text-purple-300">Nexus</span>
+          </h1>
+        </a>
+      </div>
+
+      <div class="hidden w-full md:block md:w-auto space-x-6" id="navbar-default">
+        <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0">
+            <li>
+                <a href="#" class="hover:text-blue-300 transition-colors">
+                    Laptops
+                  </a>
+            </li>
+            <li>
+                <a href="#" class="hover:text-blue-300 transition-colors">
+                    Desktops
+                  </a>
+            </li>
+            <li>
+                <a href="#" class="hover:text-blue-300 transition-colors">
+                    Components
+                  </a>
+            </li>
+            <li>
+                <a href="#" class="hover:text-blue-300 transition-colors">
+                    Deals
+                  </a>
+            </li>
+            <li>
+                <a href="#" class="hover:text-blue-300 transition-colors">
+                    Support
+                  </a>
+            </li>
+        </ul>
+      </div>
+      
+      <div class="flex items-center space-x-4">
+        <div class="relative hidden md:block">
+          <input type="text" placeholder="Search products..." class="bg-indigo-800/50 text-white pl-3 pr-8 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 w-40 lg:w-60" />
+          <!-- <SearchIcon class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-blue-300" /> -->
+           {% component "searchicon" classes="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-blue-300" %}
+           {% endcomponent %}
+        </div>
+        
+        <div class="relative group">
+          <button id="user-menu-toggle" class="p-1 hover:text-blue-300 transition-colors">
+            {% component "usericon" size=20 %}
+            {% endcomponent %}
+          </button>
+        
+          <!-- Dropdown -->
+          <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-40 bg-indigo-950 border border-indigo-700 text-sm text-white rounded-md shadow-lg z-50">
+            {% if user.is_authenticated %}
+              <a href="{% url 'accounts:profile' %}" class="block px-4 py-2 hover:bg-indigo-800">Profile</a>
+              <a href="{% url 'accounts:orders' %}" class="block px-4 py-2 hover:bg-indigo-800">Orders</a>
+              <form method="post" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="w-full text-left px-4 py-2 hover:bg-indigo-800">Log Out</button>
+              </form>
+            {% else %}
+              <a href="{% url 'accounts:login' %}?next={{ request.get_full_path }}" class="block px-4 py-2 hover:bg-indigo-800">Login</a>
+              <a href="{% url 'accounts:register' %}" class="block px-4 py-2 hover:bg-indigo-800">Sign Up</a>
+            {% endif %}
+          </div>
+        </div>
+        
+
+        <button class="p-1 hover:text-blue-300 transition-colors relative">
+          <!-- <ShoppingCartIcon size={20} /> -->
+           {% component "shoppingcarticon" size=20 %}
+           {% endcomponent %}
+          <span class="absolute -top-1 -right-1 bg-blue-400 text-xs rounded-full w-4 h-4 flex items-center justify-center">
+            3
+          </span>
+        </button>
+        <button id="navbar-toggle" data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm md:hidden p-1"  aria-controls="navbar-default" aria-expanded="false">
+          <!-- <MenuIcon size={20} /> -->
+          <span class="sr-only">Open main menu</span>
+           {% component "menuicon" size=20 %}
+           {% endcomponent %}
+        </button>
+      </div>
+  
+    </nav>
+    <!-- Mobile Menu (now in flow, pushes content down) -->
+<div id="mobile-menu" class="md:hidden hidden bg-indigo-950 text-white w-full shadow-md">
+    <ul class="flex flex-col px-6 py-4 space-y-3">
+      <li><a href="#" class="hover:text-blue-300 transition-colors">Laptops</a></li>
+      <li><a href="#" class="hover:text-blue-300 transition-colors">Desktops</a></li>
+      <li><a href="#" class="hover:text-blue-300 transition-colors">Components</a></li>
+      <li><a href="#" class="hover:text-blue-300 transition-colors">Deals</a></li>
+      <li><a href="#" class="hover:text-blue-300 transition-colors">Support</a></li>
+    </ul>
+  </div>
+  
+  </header>
+
+
+<!-- Footer -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggleButton = document.getElementById("navbar-toggle");
+    const menu = document.getElementById("mobile-menu");
+
+    toggleButton.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const userToggle = document.getElementById("user-menu-toggle");
+    const dropdown = document.getElementById("user-dropdown");
+
+    userToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdown.classList.toggle("hidden");
+    });
+
+    // Hide dropdown if clicked outside
+    document.addEventListener("click", () => {
+      dropdown.classList.add("hidden");
+    });
+  });
+</script>

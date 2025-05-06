@@ -1,0 +1,129 @@
+{% load component_tags %}
+<footer class="bg-gradient-to-r from-indigo-950 to-purple-950 text-white pt-12 pb-6 px-6 {{classes}}">
+    <div class="container mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+        <div>
+          <h3 class="text-xl font-bold mb-4">
+            <span class="text-blue-300">Tech</span>
+            <span class="text-purple-300">Nexus</span>
+          </h3>
+          <p class="text-gray-300 text-sm mb-4">
+            Your one-stop destination for premium tech hardware and
+            components. We deliver quality products for enthusiasts and
+            professionals alike.
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">
+              <!-- <FacebookIcon size={20} /> -->
+               {% component "facebookicon" size=20 %}
+               {% endcomponent %}
+            </a>
+            <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">
+              <!-- <TwitterIcon size={20} /> -->
+              {% component "twittericon" size=20 %}
+               {% endcomponent %}
+            </a>
+            <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">
+              <!-- <InstagramIcon size={20} /> -->
+              {% component "instagramicon" size=20 %}
+                {% endcomponent %}
+            </a>
+            <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">
+              <!-- <YoutubeIcon size={20} /> -->
+              {% component "youtubeicon" size=20 %}
+               {% endcomponent %}
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Shop</h4>
+          <ul class="space-y-2 text-gray-300">
+            <li>
+              <a href="#" class="hover:text-blue-300 transition-colors">
+                Laptops
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-blue-300 transition-colors">
+                Desktops
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-blue-300 transition-colors">
+                Processors
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-blue-300 transition-colors">
+                Graphics Cards
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-blue-300 transition-colors">
+                Memory & Storage
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Support</h4>
+          <ul class="space-y-2 text-gray-300">
+            <li>
+              <a href="#" class="hover:text-blue-300 transition-colors">
+                Contact Us
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-blue-300 transition-colors">
+                FAQs
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-blue-300 transition-colors">
+                Shipping Information
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-blue-300 transition-colors">
+                Returns & Exchanges
+              </a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-blue-300 transition-colors">
+                Warranty Information
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
+          <p class="text-gray-300 text-sm mb-4">
+            Subscribe to get special offers, free giveaways, and new product
+            announcements.
+          </p>
+          <div class="flex">
+            <input type="email" placeholder="Your email" class="bg-indigo-800/50 text-white px-3 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-400 flex-grow" />
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-r-md transition-colors">
+              <!-- <MailIcon size={18} /> -->
+              {% component "mailicon" size=18 %}
+               {% endcomponent %}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+        <p>© 2023 TechNexus. All rights reserved.</p>
+        <div class="flex space-x-6 mt-4 md:mt-0">
+          <a href="#" class="hover:text-blue-300 transition-colors">
+            Privacy Policy
+          </a>
+          <a href="#" class="hover:text-blue-300 transition-colors">
+            Terms of Service
+          </a>
+          <a href="#" class="hover:text-blue-300 transition-colors">
+            Cookie Policy
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>

@@ -1,0 +1,14 @@
+{% load custom_filters %}
+<section class="mb-12">
+    <h2 class="text-2xl font-bold text-white mb-6">Specifications</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {% for key, value in specs %}
+        <div class="bg-indigo-900/20 p-4 rounded-lg flex justify-between items-center">
+          <span class="text-gray-400">{{ key }}</span>
+          <span class="text-white font-medium">{{ value }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+  
+  

@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block title %}Tech Store{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="display-4 rgb-text">Welcome to the Tech Store!</h1>
+            <p class="lead">Get the latest and greatest tech products at the best prices.</p>
+            <hr class="my-4">
+            <p>Explore our wide selection of desktop and laptop computers, as well as individual components for office and gaming use.</p>
+            <a class="btn btn-primary btn-lg" href="{% url 'frontend:product_list' %}" role="button">Shop Now</a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 col-sm-10">
+                <div class="category">
+                    <h2>Desktops</h2>
+                    <p>High-performance desktops for gaming and productivity.</p>
+                    <a href="{% url 'frontend:category_products' category='Desktop' %}" class="btn btn-secondary">View Desktops</a>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-10">
+                <div class="category">
+                    <h2>Laptops</h2>
+                    <p>Portable and powerful laptops for on-the-go use.</p>
+                    <a href="{% url 'frontend:category_products' category='Laptop' %}" class="btn btn-secondary">View Laptops</a>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-10">
+                <div class="category">
+                    <h2>Components</h2>
+                    <p>Individual components to build or upgrade your system.</p>
+                    <a href="{% url 'frontend:category_products' category='System Component' %}" class="btn btn-secondary">View Components</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        body {
+            background-color: #121212;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            animation: rgb-background 10s infinite alternate;
+        }
+
+        @keyframes rgb-background {
+            0% {
+                background-color: #121212;
+            }
+            25% {
+                background-color: #151518;
+            }
+            50% {
+                background-color: #181815;
+            }
+            75% {
+                background-color: #151815;
+            }
+            100% {
+                background-color: #121212;
+            }
+        }
+
+        .jumbotron {
+            background-color: #212529;
+            text-align: center;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .display-4 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .lead {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #545b62;
+            border-color: #545b62;
+        }
+
+        .row {
+            margin-bottom: 2rem;
+            /* justify-content: space-evenly; */
+            /* flex-wrap: nowrap; */
+            /* gap: 10px; */
+        }
+
+        .category {
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .row > div:nth-child(1) .category {
+            background-image: url('https://images.unsplash.com/photo-1600443546015-f9b924a5b416?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y29tcHV0ZXIlMjBkZXNrfGVufDB8fDB8fHww'); /* Desktop */
+        }
+
+        .row > div:nth-child(2) .category {
+            background-image: url('https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); /* Laptop */
+        }
+
+        .row > div:nth-child(3) .category {
+            background-image: url('https://plus.unsplash.com/premium_photo-1714618946021-8fbd6394d1a8?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGNvbXBvbmVudHN8ZW58MHx8MHx8fDA%3D'); /* Component */
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #94abf0;
+            text-shadow: 1px 1px #161e3a;
+        }
+
+        /* RGB effect */
+        .rgb-text {
+            animation: rgb-shift 5s infinite alternate;
+        }
+
+        @keyframes rgb-shift {
+            0% {
+                text-shadow: -1px 0 red, 0 1px green, 1px 0 blue;
+            }
+            25% {
+                text-shadow: 0 1px red, 1px 0 green, 0 -1px blue;
+            }
+            50% {
+                text-shadow: 1px 0 red, 0 -1px green, -1px 0 blue;
+            }
+            75% {
+                text-shadow: 0 -1px red, -1px 0 green, 0 1px blue;
+            }
+            100% {
+                text-shadow: -1px 0 red, 0 1px green, 1px 0 blue;
+            }
+        }
+    </style>
+{% endblock %}
