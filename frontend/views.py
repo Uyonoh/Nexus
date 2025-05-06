@@ -2,8 +2,8 @@ from django.shortcuts import render
 
 from rest_framework import generics
 from django.shortcuts import render
-from store.models import Category, ProductType, Product, Order, OrderItem, Inventory
-from store.serializers import CategorySerializer, ProductTypeSerializer, ProductSerializer, OrderSerializer, OrderItemSerializer, InventorySerializer
+from products.models import Category, ProductType, Product#, Order, OrderItem, Inventory
+from products.serializers import CategorySerializer, ProductTypeSerializer, ProductSerializer #, OrderSerializer, OrderItemSerializer, InventorySerializer
 
 from .products import products, reviews, related_products
 from typing import List, Dict, Tuple
