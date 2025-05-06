@@ -1,0 +1,12 @@
+{% load component_tags %}
+
+<section class="mb-12">
+    <h2 class="text-2xl font-bold text-white mb-6">Related Products</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for product in related_products %}
+        {% component "productcard" product=product %}
+        {% endcomponent %}
+      {% endfor %}
+    </div>
+  </section>
+  

@@ -1,0 +1,16 @@
+<div x-data="{ selectedImage: 0, images: {{ images|safe }} }" class="space-y-4">
+    <div class="aspect-w-16 aspect-h-12 bg-indigo-900/20 rounded-lg overflow-hidden">
+      <img :src="images[selectedImage]" alt="Product view" class="object-cover w-full h-full">
+    </div>
+  
+    <div class="grid grid-cols-4 gap-4">
+      <template x-for="(image, index) in images" :key="index">
+        <button @click="selectedImage = index"
+                :class="selectedImage === index ? 'border-blue-500' : 'border-transparent hover:border-blue-400'"
+                class="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden border-2 transition-colors">
+          <img :src="image" :alt="`Product view ${index + 1}`" class="object-cover w-full h-full">
+        </button>
+      </template>
+    </div>
+  </div>
+  

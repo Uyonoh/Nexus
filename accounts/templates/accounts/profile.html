@@ -1,0 +1,62 @@
+{% extends 'base2.html' %}
+{% load component_tags %}
+
+{% block content %}
+<main class="min-h-screen bg-gradient-to-b from-indigo-950 via-indigo-900 to-purple-950 text-white p-8">
+
+    <!-- User Profile Header -->
+    <section class="bg-indigo-950 p-6 rounded-md mb-8">
+        <h2 class="text-3xl font-bold text-blue-300">Welcome, {{ user.username }}!</h2>
+        <p class="text-lg text-gray-300">Here's your profile page.</p>
+    </section>
+
+    <!-- Profile Info Section -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <!-- Profile Image & Info -->
+        <div class="bg-indigo-800/50 p-6 rounded-md shadow-lg">
+            <div class="flex items-center space-x-6">
+                <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="w-24 h-24 rounded-full object-cover">
+                <div>
+                    <h3 class="text-xl font-bold">{{ user.first_name }} {{ user.last_name }}</h3>
+                    <p class="text-gray-300">{{ user.email }}</p>
+                    <p class="text-gray-300">{{ user.date_joined|date:"F j, Y" }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Orders Section -->
+        <div class="bg-indigo-800/50 p-6 rounded-md shadow-lg">
+            <h3 class="text-2xl font-bold text-blue-300 mb-4">Recent Orders</h3>
+            <ul class="space-y-4">
+                {% for order in orders %}
+                <li class="flex justify-between items-center">
+                    <div>
+                        <p class="text-lg">{{ order.created_at|date:"F j, Y" }}</p>
+                        <p class="text-gray-300">Total: ${{ order.total_amount }}</p>
+                    </div>
+                    <span class="{% if order.status == 'completed' %}text-green-400{% else %}text-yellow-400{% endif %}">
+                        {{ order.status|capfirst }}
+                    </span>
+                </li>
+                {% empty %}
+                <li class="text-gray-300">No orders yet!</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+    <!-- Interested Products Section -->
+    <section>
+        <h3 class="text-2xl font-bold text-blue-300 mb-4">You may also like</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for product in recommended_products %}
+                {% component "productcard" product=product %}
+                {% endcomponent %}
+            {% empty %}
+            <p class="text-gray-300">No recommended products available.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+</main>
+{% endblock %}

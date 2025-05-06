@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<!-- <section class="text-center">
+    <div class="img-container">
+        <img class="product-img" src="/media/{{product.image}}" alt="{product.description}">
+    </div>
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.description }}</p>
+        <p>Price: {{ product.price }}</p>
+        <div>Specs: 
+            {% for spec, val in product.specs.items %}
+                <p><span>{{spec}}:</span> <span>{{val}}</span></p>
+            {% endfor %}
+        </div>
+        <button class="cart">Add to Cart</button>
+</section>
+
+<style>
+    .img-container {
+        /* width: 100%; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem 1rem;
+        border-left: 1px solid rgb(182, 16, 16);
+        border-right: 1px solid rgb(10, 10, 218);
+    }
+
+    .product-img {
+        width: 80%;
+        max-height: 70vh;
+    }
+</style> -->
+
+
+<section class="product-container d-inline-flex">
+    <div class="img-container d-inline-flex">
+        <img class="product-img" src="/media/{{product.image}}" alt="{product.description}">
+    </div>
+    <div class="details">
+        <div class="head"> <br /></div>
+        <h1 id="product-name">{{ product.name }}</h1>
+        <h4>$ {{ product.price }}</h2>
+        <div>Specs: 
+            <table>
+            {% for spec, val in product.specs.items %}
+                <tr><td><b>{{spec}}</b></td> <td>{{val}}</td></tr>
+            {% endfor %}
+            </table>
+        </div>
+        <div class="description">
+            <h5>Item description:</h6>
+            {{ product.description }}
+        </div>
+        <button class="cart">Add to Cart</button>
+    </div>
+</section>
+
+<style>
+    .product-container {
+        column-gap: 1.5rem;
+    }
+    .img-container {
+        /* width: 100%; */
+        /* display: flex; */
+        justify-content: center;
+        align-items: center;
+        margin: 1rem;
+        padding: 2rem .5rem;
+        border-left: 1px solid rgb(182, 16, 16);
+        border-right: 1px solid rgb(10, 10, 218);
+    }
+
+    .product-img {
+        width: 80%;
+        max-height: 70vh;
+    }
+
+    #product-name {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #555;
+        margin-bottom: 2rem;
+    }
+    table {
+        gap: 2rem;
+
+        td {
+            padding-right: 2rem;
+        }
+    }
+
+    .description {
+        padding-top: 1rem;
+        border-top: 1px solid #555;
+        margin-top: 2rem;
+    }
+</style>
+
+{% endblock %}
