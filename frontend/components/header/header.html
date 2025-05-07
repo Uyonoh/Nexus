@@ -15,17 +15,17 @@
       <div class="hidden w-full md:block md:w-auto space-x-6" id="navbar-default">
         <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0">
             <li>
-                <a href="#" class="hover:text-blue-300 transition-colors">
+                <a href="{% url 'products:category_products' 'Laptops' %}" class="hover:text-blue-300 transition-colors">
                     Laptops
                   </a>
             </li>
             <li>
-                <a href="#" class="hover:text-blue-300 transition-colors">
+                <a href="{% url 'products:category_products' 'Desktops' %}" class="hover:text-blue-300 transition-colors">
                     Desktops
                   </a>
             </li>
             <li>
-                <a href="#" class="hover:text-blue-300 transition-colors">
+                <a href="{% url 'products:category_products' 'System Components' %}" class="hover:text-blue-300 transition-colors">
                     Components
                   </a>
             </li>
@@ -75,11 +75,11 @@
 
         <button class="p-1 hover:text-blue-300 transition-colors relative">
           <!-- <ShoppingCartIcon size={20} /> -->
-           {% component "shoppingcarticon" size=20 %}
+           {% component "navcarticon" size=20 cart=cart %}
            {% endcomponent %}
-          <span class="absolute -top-1 -right-1 bg-blue-400 text-xs rounded-full w-4 h-4 flex items-center justify-center">
+          <!-- <span class="absolute -top-1 -right-1 bg-blue-400 text-xs rounded-full w-4 h-4 flex items-center justify-center">
             3
-          </span>
+          </span> -->
         </button>
         <button id="navbar-toggle" data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm md:hidden p-1"  aria-controls="navbar-default" aria-expanded="false">
           <!-- <MenuIcon size={20} /> -->

@@ -15,3 +15,6 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.title}: {self.content}"
+
+class ReviewVote(models.Model):
+    pass

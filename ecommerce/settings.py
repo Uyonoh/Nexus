@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'store',
+    'django_htmx',
     'accounts',
     'cart',
     'frontend',
@@ -61,6 +61,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'frontend.middleware.threadlocals.ThreadLocalMiddleware',
+    'frontend.middleware.sessions.CartSessionMiddleware',
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
