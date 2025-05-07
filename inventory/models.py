@@ -8,3 +8,6 @@ class Inventory(models.Model):
 
     def __str__(self):
         return self.product.name
+
+class StockAlert(models.Model):
+    pass

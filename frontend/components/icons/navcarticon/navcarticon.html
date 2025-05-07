@@ -1,0 +1,36 @@
+<div
+  class="relative group"
+  id="navcart"
+  hx-get="{% url 'cart:nav_cart_partial' %}"
+  hx-trigger="cartUpdated from:body"
+  hx-swap="outerHTML"
+  hx-target="this"
+  onclick="openCart()"
+>
+  <i
+    class="bi bi-cart3 text-xl text-purple-300 hover:text-blue-300 transition-colors {{classes}}"
+    size="{{size}}"
+  ></i>
+  {% if cart.items.exists %}
+  <span
+    class="absolute -top-1 -right-1 bg-blue-400 text-xs rounded-full w-5 h-5 flex items-center justify-center"
+  >
+    {{ cart.items.count }}
+  </span>
+  {% endif %}
+</div>
+
+<script>
+  function openCart1() {
+    const cart = document.querySelector(".cart");
+    if (cart.classList.contains("hidden")) {
+      cart.classList.remove("hidden");
+    } else {
+      cart.classList.add("hidden");
+    }
+  }
+
+  function openCart() {
+    window.location.href = "{% url 'cart:cart' %}";
+  }
+</script>

@@ -1,4 +1,5 @@
 from django_components import Component, register
+import random
 
 @register("shoppingcarticon")
 class ShoppingCartIcon(Component):
@@ -9,4 +10,5 @@ class ShoppingCartIcon(Component):
         return {
             "size": kwargs.get("size", ""),
             "classes": kwargs.get("classes", ""),
+            "count": random.randint(0, 5),
         }
