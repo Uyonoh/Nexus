@@ -6,6 +6,7 @@ class ImageGallery(Component):
 
     def get_context_data(self, images, *args, **kwargs):
         """Return context data for the template"""
+        print(f"Images: {images}")
         return {
             "size": kwargs.get("size", ""),
             "classes": kwargs.get("classes", ""),

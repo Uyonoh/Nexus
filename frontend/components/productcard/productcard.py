@@ -7,6 +7,8 @@ class ProductCard(Component):
     def get_context_data(self, *args, **kwargs):
         """Return context data for the template"""
         # print(kwargs["product"])
+        p = kwargs["product"]
+        print(p)
         return {
             "product": kwargs.get("product", ""),
             "classes": kwargs.get("classes", ""),
