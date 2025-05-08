@@ -9,6 +9,9 @@ class ProductSpecs(Component):
         """Return context data for the template"""
 
         formatted_specs = []
+        # print(f"Specs: {specs}")
+        # specs = {'Processor': 'AMD i9', 'RAM': '64GB DDR5', 'Storage': '512GB NVMe SSD', 'Graphics': 'RTX 4070', 'Display': '15.6" QHD 60Hz'}
+
 
         for key, value in specs.items():
             # Add a space before capital letters and capitalize the first word

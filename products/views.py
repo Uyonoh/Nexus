@@ -1,15 +1,18 @@
-from django.shortcuts import render
+from django.http import HttpRequest
+from django.shortcuts import render, redirect
 
+from django_htmx.http import trigger_client_event
 from rest_framework import generics
 from django.shortcuts import render
-from .models import Category, ProductType, Product
+from .models import Category, ProductType, Product, ProductImage, ProductSpec
 from .serializers import CategorySerializer, ProductTypeSerializer, ProductSerializer
 
 from typing import List, Dict, Tuple
 import random
+from .forms import ProductForm, ProductImageForm, ProductSpecForm
 
 CategoriesProducts = Dict[str, List[Product]]
-
+# HttpRequest.
 
 def product_list(request):
     # products = Product.objects.all()
@@ -18,6 +21,7 @@ def product_list(request):
 
 def product_detail(request, name: str):
     product = Product.objects.get(name=name)
+    product = ProductSerializer(product).data
     return render(request, 'frontend/product_detail2.html', {'product': product})
 
 def category_list(request, category: str):
@@ -56,3 +60,62 @@ def landing2(request):
     
     products = get_categories()
     return render(request, 'frontend/landing2.html', {"products": products})
+
+def add(request):
+    product: Product = None
+    if request.method == "POST":
+        if request.POST.get("form") == "product":
+            form = ProductForm(request.POST, request.FILES)
+
+            if form.is_valid():
+                product = form.save()
+                # trigger_client_event(request, 'addImages')
+                form = ProductSpecForm()
+                return render(request, 'products/partials/add_spec.html', {"form": form, "product_id": product.id})
+            else:
+                return render(request, 'products/add.html', {"form": form})
+            
+        elif request.POST.get("form") == "spec":
+            form = ProductSpecForm(request.POST)
+            id = request.POST.get("product_id")
+            product = Product.objects.get(id=id)
+            form.instance.product = product
+
+            print(form)
+            if form.is_valid():
+                product_spec: ProductSpec = form.save()
+                # trigger_client_event(request, 'finishProduct')
+                
+                form = ProductImageForm()
+                return render(request, 'products/partials/add_images.html', {"form": form, "product_id": product.id})
+            else:
+                return render(request, 'products/partials/add_spec.html', {"form": form, "product_id": product.id})
+
+        else:
+            form = ProductImageForm(request.POST, request.FILES)
+            id = request.POST.get("product_id")
+            product = Product.objects.get(id=id)
+            form.instance.product = product
+            # print(request.body)
+            if form.is_valid():
+                product_image: ProductImage = form.save()
+                # trigger_client_event(request, 'addSpec')
+                return redirect('frontend:home')
+            else:
+                print(form.errors)
+                return render(request, 'products/partials/add_images.html', {"form": form, "product_id": product.id})
+            
+        
+            
+    else:
+        form = ProductForm()
+        form2 = ProductImageForm()
+        form3 = ProductSpecForm()
+
+        context = {
+            "form": form,
+            "form2": form2,
+            "form3": form3,
+        }
+    
+    return render(request, 'products/add.html', {"form": form})

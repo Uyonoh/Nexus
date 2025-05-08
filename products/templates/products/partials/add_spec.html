@@ -1,0 +1,32 @@
+<div id="create-spec" class="max-w-md mx-auto bg-indigo-950 p-8 rounded-lg shadow-lg mt-10 text-white">
+    <h2 class="text-2xl font-bold mb-6 text-center">Create Product Spec</h2>
+  
+    <form method="POST" enctype="multipart/form-data" class="space-y-5">
+      {% csrf_token %}
+      
+      {% for field in form %}
+        <div>
+          <label for="{{ field.id_for_label }}" class="block text-sm font-semibold mb-1">
+            {{ field.label }}
+          </label>
+          {{ field }}
+          {% if field.errors %}
+            <p class="text-sm text-red-400 mt-1">{{ field.errors.0 }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+  
+      
+      <input type="hidden" name="product_id" value={{product_id}}>
+      <input type="hidden" name="form" value="spec">
+      <button
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition-colors"
+      hx-post="{% url 'products:add' %}"
+      hx-target="#create-spec"
+      hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+      >
+        Next
+      </button>
+    </form>
+  
+  </div>
