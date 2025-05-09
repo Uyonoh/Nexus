@@ -53,9 +53,9 @@
       </div>
       <button
         hx-post="{% url 'cart:add_to_cart' product.id %}"
+        data-product-name="{{ product.name }}"
         hx-target="#navcart"
         hx-swap="outerHTML"
-        hx-indicator="#cart-indicator"
         hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
         class="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-md transition-colors"
       >

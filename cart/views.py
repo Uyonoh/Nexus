@@ -60,11 +60,27 @@ def update_cart_item(request, item_id):
         item.quantity += 1
     elif action == 'decrement':
         item.quantity = max(1, item.quantity - 1)
-    item.save()
-    context = {
-        'item': item,
-        'cart': cart
-    }
+        # item.quantity -= 1
+    else:
+        raise ValueError(f"Invalid action: {action}")
+    
+    # TODO: Implement auto delete upon quantity <= 0
+    if item.quantity <= 0:
+        remove_from_cart(request, item_id)
+        context = {'cart': cart}
+        # return HttpResponse(status=204)  # No content
+    else:
+        item.save()
+        context = {
+            'item': item,
+            'cart': cart
+        }
+    
+    # item.save()
+    # context = {
+    #     'item': item,
+    #     'cart': cart
+    # }
     
     # response = render(request, 'cart/_cart_items.html', {'cart': cart})
     response = HttpResponse(item.quantity)  # No content

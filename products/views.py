@@ -71,7 +71,7 @@ def add(request):
                 product = form.save()
                 # trigger_client_event(request, 'addImages')
                 form = ProductSpecForm()
-                return render(request, 'products/partials/add_spec.html', {"form": form, "product_id": product.id})
+                return render(request, 'products/includes/add_spec.html', {"form": form, "product_id": product.id})
             else:
                 return render(request, 'products/add.html', {"form": form})
             
@@ -87,9 +87,9 @@ def add(request):
                 # trigger_client_event(request, 'finishProduct')
                 
                 form = ProductImageForm()
-                return render(request, 'products/partials/add_images.html', {"form": form, "product_id": product.id})
+                return render(request, 'products/includes/add_images.html', {"form": form, "product_id": product.id})
             else:
-                return render(request, 'products/partials/add_spec.html', {"form": form, "product_id": product.id})
+                return render(request, 'products/includes/add_spec.html', {"form": form, "product_id": product.id})
 
         else:
             form = ProductImageForm(request.POST, request.FILES)
@@ -103,19 +103,12 @@ def add(request):
                 return redirect('frontend:home')
             else:
                 print(form.errors)
-                return render(request, 'products/partials/add_images.html', {"form": form, "product_id": product.id})
+                return render(request, 'products/includes/add_images.html', {"form": form, "product_id": product.id})
             
         
             
     else:
         form = ProductForm()
-        form2 = ProductImageForm()
-        form3 = ProductSpecForm()
 
-        context = {
-            "form": form,
-            "form2": form2,
-            "form3": form3,
-        }
     
     return render(request, 'products/add.html', {"form": form})
