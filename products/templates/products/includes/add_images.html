@@ -1,30 +1,29 @@
 <div id="create-images" class="max-w-md mx-auto bg-indigo-950 p-8 rounded-lg shadow-lg mt-10 text-white">
-    <h2 class="text-2xl font-bold mb-6 text-center">Add Product Images</h2>
-  
-    <form id="imageForm" method="POST" action="{% url 'products:add' %}" enctype="multipart/form-data" class="space-y-5">
+  <h2 class="text-2xl font-bold mb-6 text-center">Add Product Images</h2>
+
+  <form id="imageForm" method="POST" action="{% url 'products:add' %}" enctype="multipart/form-data" class="space-y-5">
       {% csrf_token %}
       
-      {% for field in form %}
-        <div>
-          <label for="{{ field.id_for_label }}" class="block text-sm font-semibold mb-1">
-            {{ field.label }}
-          </label>
-          {{ field }}
-          {% if field.errors %}
-            <p class="text-sm text-red-400 mt-1">{{ field.errors.0 }}</p>
-          {% endif %}
-        </div>
-      {% endfor %}
-  
+      <div id="image-fields">
+          {% include 'products/includes/image_field.html' with index=0 %}
+      </div>
+
+      <div class="flex space-x-2">
+          <button type="button"
+                  hx-get="{% url 'products:add_image_field' %}"
+                  hx-target="#image-fields"
+                  hx-swap="beforeend"
+                  class="w-1/4 bg-indigo-700 hover:bg-indigo-600 text-white p-2 rounded-md transition-colors">
+              + Add Another
+          </button>
+          
+          <button type="submit"
+                  class="w-3/4 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition-colors">
+              Finish
+          </button>
+      </div>
       
-      <input type="hidden" name="product_id" value={{product_id}}>
+      <input type="hidden" name="product_id" value="{{ product_id }}">
       <input type="hidden" name="form" value="image">
-      <button
-      class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition-colors"
-      type="submit"
-      >
-        Finish
-      </button>
-    </form>
-  
-  </div>
+  </form>
+</div>

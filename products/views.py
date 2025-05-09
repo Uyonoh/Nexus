@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 
 from django_htmx.http import trigger_client_event
 from rest_framework import generics
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 from .models import Category, ProductType, Product, ProductImage, ProductSpec
 from .serializers import CategorySerializer, ProductTypeSerializer, ProductSerializer
 
@@ -80,12 +81,17 @@ def add(request):
             id = request.POST.get("product_id")
             product = Product.objects.get(id=id)
             form.instance.product = product
-
-            print(form)
+            
+            # print(form)
             if form.is_valid():
-                product_spec: ProductSpec = form.save()
-                # trigger_client_event(request, 'finishProduct')
+                # product_spec: ProductSpec = form.save()
                 
+                
+                keys = request.POST.getlist('key')
+                values = request.POST.getlist('value')
+                for k, v in zip(keys, values):
+                    ProductSpec.objects.create(product=product, key=k, value=v)
+                    
                 form = ProductImageForm()
                 return render(request, 'products/includes/add_images.html', {"form": form, "product_id": product.id})
             else:
@@ -98,8 +104,10 @@ def add(request):
             form.instance.product = product
             # print(request.body)
             if form.is_valid():
-                product_image: ProductImage = form.save()
-                # trigger_client_event(request, 'addSpec')
+                files = request.FILES.getlist('image')
+                for f in files:
+                    ProductImage.objects.create(product=product, image=f)
+                
                 return redirect('frontend:home')
             else:
                 print(form.errors)
@@ -112,3 +120,27 @@ def add(request):
 
     
     return render(request, 'products/add.html', {"form": form})
+
+def add_image_field(request):
+    """HTMX view to add new image field"""
+    form = ProductImageForm()
+    index = request.GET.get('index', 0)
+    html = render_to_string('products/includes/image_field.html', {
+        'form': form,
+        'index': index
+    })
+    return HttpResponse(html)
+
+def add_spec_field(request):
+    """HTMX view to add new spec field"""
+    form = ProductSpecForm()
+    index = request.GET.get('index', 0)
+    html = render_to_string('products/includes/spec_field.html', {
+        'form': form,
+        'index': index
+    })
+    return HttpResponse(html)
+
+def remove_field(request):
+    """HTMX view to remove a field"""
+    return HttpResponse('')

@@ -2,9 +2,10 @@
 <div
   class="group bg-gradient-to-b from-indigo-900/20 to-purple-900/20 border border-indigo-800/30 rounded-lg overflow-hidden shadow-lg hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300"
 >
+  <!-- Django renders url first, no error here -->
   <div
     class="relative overflow-hidden"
-    onclick="window.open('/products/{{product.name}}', '_self')"
+    onclick="window.open('{% url 'products:product_detail' product.name %}', '_self')"
   >
     <img
       src="{{product.image}}"
