@@ -1,21 +1,30 @@
 {% load component_tags %}
 
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
 
     <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.5/dist/tailwind.min.css" rel="stylesheet"> -->
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-    <script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             htmx.config.useTemplateFragments = true;
             
@@ -25,29 +34,124 @@
                 event.detail.headers['X-CSRFToken'] = csrfToken;
             });
         });
-    </script>
+    </script> -->
   </head>
   <body>
     <div id="root">
-    <div class="bg-gradient-to-b from-indigo-950 via-indigo-900 to-purple-950 min-h-screen text-white">
-        {% component 'header' %}
-        {% endcomponent %}
-
-        {% block content %}
-        {% endblock %}
-
-        {% component 'footer' %}
-        {% endcomponent %}
+      <div
+        class="bg-gradient-to-b from-indigo-950 via-indigo-900 to-purple-950 min-h-screen text-white"
+      >
+        {% component 'header' %} {% endcomponent %} {% block content %} {%
+        endblock %} {% component 'footer' %} {% endcomponent %}
+      </div>
     </div>
+
+    <div
+      id="cart-notification-container"
+      class="fixed bottom-4 right-4 z-50 space-y-2 w-80"
+    >
+      <!-- Notifications will be inserted here -->
     </div>
+    {% include 'cart/includes/cart_notification.html' %}
+
+    
+
+
+
+
     <script type="module" src="/src/index.tsx"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> -->
     <script>
       function toProducts() {
         window.location.href = "/products";
       }
     </script>
+    <script>
+      let cartNotificationTimeoutId = null;
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.body.addEventListener("htmx:afterRequest", (evt) => {
+    if (evt.target?.closest('[hx-post^="/cart/add/"]')) {
+      const productName = evt.target.dataset.productName;
+      const notification = document.querySelector("#cart-notification");
+
+      if (!notification) {
+        console.log("notification not found");
+        return;
+      }
+
+      requestAnimationFrame(() => {
+        const alpineData = Alpine.$data(notification);
+        if (alpineData) {
+          alpineData.message = "Item added to cart";
+          alpineData.product = productName;
+
+          // Clear existing timeout (if any)
+          if (cartNotificationTimeoutId) {
+            clearTimeout(cartNotificationTimeoutId);
+            cartNotificationTimeoutId = null;
+          }
+
+          // Show the notification
+          setTimeout(() => {
+            alpineData.show = true;
+
+            // Set timeout to hide it later
+            cartNotificationTimeoutId = setTimeout(() => {
+              alpineData.show = false;
+              cartNotificationTimeoutId = null;
+            }, 3000);
+          }, 50); // small delay to avoid race condition
+        }
+      });
+    }
+  });
+});
+
+
+    </script>
+    
+
+    <!-- <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        document.body.addEventListener('htmx:afterRequest', function(evt) {
+            if (evt.detail.successful && evt.target?.closest('[hx-post^="/cart/add/"]')) {
+                const productName = evt.target.dataset.productName
+                const event = new CustomEvent('cart-notification', {
+                    detail: {
+                        message: 'Item added to cart',
+                        product: productName
+                    }
+                });
+                document.dispatchEvent(event)
+            }
+        });
+      });
+      </script> -->
+
+      <!-- <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('cartNotification', () => ({
+                show: false,
+                message: '',
+                product: '',
+    
+                init() {
+                    document.addEventListener('cart-notification', (e) => {
+                        this.message = e.detail.message || 'Item added to cart!'
+                        this.product = e.detail.product || ''
+                        this.show = true
+    
+                        setTimeout(() => {
+                            this.show = false
+                        }, 5000)
+                    })
+                }
+            }))
+        })
+    </script>
+     -->
+    <!-- In base.html body -->
+    
   </body>
 </html>
-
-
