@@ -1,0 +1,16 @@
+<div class="image-field group">
+    <div class="flex items-center gap-2 mb-2">
+        {{ form.image }}
+        <button type="button"
+                class="hidden group-hover:block text-red-400 hover:text-red-300 transition-colors"
+                hx-post="{% url 'products:remove_field' %}"
+                hx-target="closest .image-field"
+                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                hx-swap="outerHTML">
+            <i class="bi bi-x-circle"></i>
+        </button>
+    </div>
+    {% if form.image.errors %}
+        <p class="text-sm text-red-400 mt-1">{{ form.image.errors.0 }}</p>
+    {% endif %}
+</div>
