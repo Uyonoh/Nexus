@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'payments',
     'products',
     'reviews',
+    'mptt',
     'rest_framework',
     'corsheaders',
     'django_components',

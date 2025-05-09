@@ -13,7 +13,7 @@ from orders.models import Order
 @login_required
 def user_profile(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')[:5]  # Get the last 5 orders
-    recommended_products = Product.objects.filter(is_new=True).order_by('?')[:6]  # Random 6 new products
+    recommended_products = Product.objects.filter().order_by('?')[:6]  # Random 6 new products
 
     return render(request, 'accounts/profile.html', {
         'user': request.user,

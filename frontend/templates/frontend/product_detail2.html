@@ -22,7 +22,7 @@ product.name }}{% endblock %} {% block content %}
   <!-- {/* Product Overview */} -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
     <!-- <ImageGallery images={product.images} /> -->
-    {% component "imagegallery" images=product.images %} {% endcomponent %}
+    {% component "imagegallery" images=product.media %} {% endcomponent %}
     <div
       class="space-y-6"
       action="{% url 'cart:add_to_cart' product_id=product.id %}"
@@ -100,7 +100,7 @@ product.name }}{% endblock %} {% block content %}
   </div>
   <!-- {/* Specifications */} -->
   <!-- <ProductSpecs specs={product.specs} /> -->
-  {% component "productspecs" specs=product.specs %} {% endcomponent %}
+  {% component "productspecs" specs=product.specifications %} {% endcomponent %}
   <!-- {/* Reviews */} -->
   <!-- <ReviewSection productId={product.id} /> -->
   {% component "reviewsection" product_id=product.id reviews=product.reviews %}
