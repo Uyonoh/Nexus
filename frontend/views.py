@@ -43,6 +43,7 @@ detail_product = {
 def product_list(request):
     # products = Product.objects.all()
     products = get_products()
+    products["Products"] = products["Products"][:10] 
     return render(request, 'frontend/product_list2.html', {'products': products})
 
 def product_detail(request, name: str):
@@ -50,7 +51,7 @@ def product_detail(request, name: str):
     return render(request, 'frontend/product_detail2.html', {'product': product})
 
 def category_list(request, category: str):
-    products = get_products_by_category(category)
+    products = get_products(category=category)
     # products = products[list(products.keys())[random.randint(0, len(products.keys()) - 1)]]
     return render(request, 'frontend/category2.html', {'products': products})
 
@@ -70,24 +71,21 @@ def add_products():
             else:
                 print(product.errors)
 
-def get_products() -> Dict[str, List[Product]]:
-    products = {}
+def get_products(*args, **kwargs) -> Dict[str, List[Product]]:
     queryset = Product.objects.all()
-    products["Products"] = [ProductSerializer(product).data for product in queryset]
+    
+    # Dynamically apply all filters from kwargs
+    if kwargs:
+        queryset = queryset.filter(**kwargs)
 
-    return products
+    return {"Products": [ProductSerializer(product).data for product in queryset]}
 
-def get_products_by_category(category) -> List[Product]:
-
-    category_id = Category.objects.get(name=category).id
-    queryset = Product.objects.filter(category=category_id)
-    return [ ProductSerializer(product).data for product in queryset]
 
 def get_categories() -> Dict[str, List[Product]]:
     products = {}
     categories = Category.objects.all()
     for category in categories:
-        products[f"{category}"] = get_products_by_category(category)
+        products[f"{category}"] = get_products(category=category)["Products"]
     return products
     
 
