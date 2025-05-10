@@ -4,7 +4,13 @@
 {% block title %}Products{% endblock %}
 
 {% block content %}
-    <h1  class="container text-center text-3xl font-bold text-white">Products</h1>
+    <h1  class="container text-center text-3xl font-bold text-white">
+    {% if category %}
+        {{category}}
+    {% else %}
+        Products
+    {% endif %}
+    </h1>
     
     <div class="row products">
         {% if products %}

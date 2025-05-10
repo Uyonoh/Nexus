@@ -13,7 +13,7 @@ product.name }}{% endblock %} {% block content %}
       Back
     </button>
     <span>/</span>
-    <a href="/categories/{{product.category}}" class="hover:text-blue-300">
+    <a href="{% url 'products:category_products' product.category %} " class="hover:text-blue-300">
       {{product.category}}
     </a>
     <span>/</span>
