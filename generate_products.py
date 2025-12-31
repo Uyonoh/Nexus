@@ -1,4 +1,4 @@
-import os
+import os, sys
 import django
 
 import requests
@@ -6,28 +6,39 @@ from io import BytesIO
 from PIL import Image
 import random
 
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecommerce.settings')
+django.setup()
+
 from django.core.files.images import ImageFile
 from faker import Faker
 from django.core.files import File
 from products.models import Category, ProductType, Product, ProductSpec, ProductImage
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'eccomerce.settings')
-django.setup()
-
 fake = Faker()
 
 def download_image(width=800, height=600, tech_keywords=['computer', 'laptop', 'cpu', 'gpu']):
-    """Download random tech-themed placeholder image"""
+    """Download random tech image using official Unsplash API"""
+    ACCESS_KEY = 'os.environ['UNSPLASH_ACCESS_KEY']'
+    keyword = random.choice(tech_keywords)
+    
     try:
-        keyword = random.choice(tech_keywords)
-        url = f"https://source.unsplash.com/{width}x{height}/?{keyword}"
-        response = requests.get(url, timeout=10)
+        # Step 1: Get image metadata and a real hotlink URL
+        api_url = f"https://api.unsplash.com/photos/random/?client_id={ACCESS_KEY}&query={keyword}"
+        meta_data = requests.get(api_url).json()
+        
+        # Unsplash requires using their specific URL with width/height params
+        image_url = f"{meta_data['urls']['raw']}&w={width}&h={height}&fit=crop"
+        
+        # Step 2: Download the actual image
+        response = requests.get(image_url, timeout=10)
         img = Image.open(BytesIO(response.content))
+        
         img_io = BytesIO()
         img.save(img_io, format='JPEG')
         return ImageFile(img_io, name=f"{keyword}_{random.randint(1000,9999)}.jpg")
     except Exception as e:
-        print(f"Error downloading image: {e}")
+        print(f"Error: {e}")
         return None
 
 def create_product_images(product, num_images=3):
@@ -121,6 +132,7 @@ def create_laptop(product_type, category, specs_base):
     } 
     for key, value in specs.items():
         ProductSpec.objects.create(product=product, key=key, value=value)
+    print(f"Creating {name}...")
     create_product_images(product, num_images=random.randint(3, 5))
     return product
 
@@ -138,7 +150,7 @@ def create_gpu(product_type, category):
         price=fake.random_int(500, 2000),
         original_price=fake.random_int(600, 2200),
         rating=fake.random_int(4, 5),
-        is_new=fake.boolean(chance_of_getting_true=80)
+        is_new=fake.boolean(chance_of_getting_true=40)
     )
     specs = {
         'VRAM': f"{fake.random_element([12, 16, 24])}GB GDDR{fake.random_element([6, 6, 6, 6, 7])}X",
@@ -151,6 +163,7 @@ def create_gpu(product_type, category):
     }
     for key, value in specs.items():
         ProductSpec.objects.create(product=product, key=key, value=value)
+    print(f"Creating {name}...")
     create_product_images(product, num_images=random.randint(2, 4))
     return product
 

@@ -46,12 +46,25 @@ class Product(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
 
     @property
     def is_new(self):
-        now = timezone.now().date()
-        created = self.created_at.date()
+        now = timezone.now()
+        created = self.created_at
         return (now - created) <= timedelta(days=7)
+    
+    @is_new.setter
+    def is_new(self, value: bool):
+        now = timezone.now()
+        if not value:
+            self.created_at = now - timedelta(days=7)
+            self.save()
+            return
+        self.created_at = now
+        self.save()
+        return
+        
 
     # Image handling
     @property
