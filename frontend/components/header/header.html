@@ -61,9 +61,12 @@
             {% if user.is_authenticated %}
               <a href="{% url 'accounts:profile' %}" class="block px-4 py-2 hover:bg-indigo-800">Profile</a>
               <a href="{% url 'accounts:orders' %}" class="block px-4 py-2 hover:bg-indigo-800">Orders</a>
+              {% if user.is_staff %}
+                <a href="/admin" class="block px-4 py-2 hover:bg-indigo-800">Admin</a>
+              {% endif %}
               <form method="post" action="{% url 'accounts:logout' %}">
                 {% csrf_token %}
-                <button type="submit" class="w-full text-left px-4 py-2 hover:bg-indigo-800">Log Out</button>
+                <button type="submit" class="w-full text-left px-4 py-2 hover:bg-red-500 hover:pointer-cursor">Log Out</button>
               </form>
             {% else %}
               <a href="{% url 'accounts:login' %}?next={{ request.get_full_path }}" class="block px-4 py-2 hover:bg-indigo-800">Login</a>

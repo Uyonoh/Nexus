@@ -22,7 +22,7 @@
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <title>Tech Nexus - Ecommerce</title>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -54,11 +54,6 @@
     </div>
     {% include 'cart/includes/cart_notification.html' %}
 
-    
-
-
-
-
     <script type="module" src="/src/index.tsx"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> -->
     <script>
@@ -68,49 +63,45 @@
     </script>
     <script>
       let cartNotificationTimeoutId = null;
+      document.addEventListener("DOMContentLoaded", () => {
+        document.body.addEventListener("htmx:afterRequest", (evt) => {
+          if (evt.target?.closest('[hx-post^="/cart/add/"]')) {
+            const productName = evt.target.dataset.productName;
+            const notification = document.querySelector("#cart-notification");
 
-document.addEventListener("DOMContentLoaded", () => {
-  document.body.addEventListener("htmx:afterRequest", (evt) => {
-    if (evt.target?.closest('[hx-post^="/cart/add/"]')) {
-      const productName = evt.target.dataset.productName;
-      const notification = document.querySelector("#cart-notification");
+            if (!notification) {
+              console.log("notification not found");
+              return;
+            }
 
-      if (!notification) {
-        console.log("notification not found");
-        return;
-      }
+            requestAnimationFrame(() => {
+              const alpineData = Alpine.$data(notification);
+              if (alpineData) {
+                alpineData.message = "Item added to cart";
+                alpineData.product = productName;
 
-      requestAnimationFrame(() => {
-        const alpineData = Alpine.$data(notification);
-        if (alpineData) {
-          alpineData.message = "Item added to cart";
-          alpineData.product = productName;
+                // Clear existing timeout (if any)
+                if (cartNotificationTimeoutId) {
+                  clearTimeout(cartNotificationTimeoutId);
+                  cartNotificationTimeoutId = null;
+                }
 
-          // Clear existing timeout (if any)
-          if (cartNotificationTimeoutId) {
-            clearTimeout(cartNotificationTimeoutId);
-            cartNotificationTimeoutId = null;
+                // Show the notification
+                setTimeout(() => {
+                  alpineData.show = true;
+
+                  // Set timeout to hide it later
+                  cartNotificationTimeoutId = setTimeout(() => {
+                    alpineData.show = false;
+                    cartNotificationTimeoutId = null;
+                  }, 3000);
+                }, 50); // small delay to avoid race condition
+              }
+            });
           }
-
-          // Show the notification
-          setTimeout(() => {
-            alpineData.show = true;
-
-            // Set timeout to hide it later
-            cartNotificationTimeoutId = setTimeout(() => {
-              alpineData.show = false;
-              cartNotificationTimeoutId = null;
-            }, 3000);
-          }, 50); // small delay to avoid race condition
-        }
+        });
       });
-    }
-  });
-});
-
-
     </script>
-    
 
     <!-- <script>
       document.addEventListener('DOMContentLoaded', () => {
@@ -129,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       </script> -->
 
-      <!-- <script>
+    <!-- <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('cartNotification', () => ({
                 show: false,
@@ -152,6 +143,5 @@ document.addEventListener("DOMContentLoaded", () => {
     </script>
      -->
     <!-- In base.html body -->
-    
   </body>
 </html>

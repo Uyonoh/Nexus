@@ -25,6 +25,8 @@
 
     <button
       class="absolute top-2 left-2 bg-white/10 backdrop-blur-sm p-1.5 rounded-full hover:bg-white/20 transition-colors"
+      onclick="event.stopPropagation();" 
+      {% comment %} Add HTMX to display notification or just change icon color {% endcomment %}
     >
       <!-- <HeartIcon size={16} class="text-white" /> -->
       {% component "hearticon" size="16" classes="text-white" %} {% endcomponent
