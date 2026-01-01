@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from django_components import ComponentsSettings
+import dotenv
+
+dotenv.load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,13 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--k97&x9(fa)24*m*22gd$7+3cn6l*32)s)xh()ce5x5=jhex!('
+SECRET_KEY = os.environ['DJANGO_SECRET']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG") == "True"
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.43.201']
+ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS'].split(', ')
 
+CORS_ALLOWED_ORIGINS = os.environ['CORS_ALLOWED_ORIGINS'].split(', ')
 
 # Application definition
 
@@ -122,8 +126,12 @@ COMPONENTS = ComponentsSettings(
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],
     }
 }
 
@@ -160,17 +168,13 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "store/static",
-]
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-
-# For production (e.g. on Render), collect all static files here:
+STATICFILES_DIRS = [
+    BASE_DIR / "store/static",
+]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Media
@@ -178,11 +182,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",
-]
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_COOKIE_SECURE=True
+SESSION_COOKIE_SECURE=True
