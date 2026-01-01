@@ -41,11 +41,11 @@ def download_image(width=800, height=600, tech_keywords=['computer', 'laptop', '
         print(f"Error: {e}")
         return None
 
-def create_product_images(product, num_images=3):
+def create_product_images(product: Product, num_images=3):
     """Create multiple images for a product"""
     try:
         # Create main image
-        main_img = download_image(1200, 900, ['laptop', 'gaming', 'computer'])
+        main_img = download_image(1200, 900, [product.category])
         if main_img:
             ProductImage.objects.create(
                 product=product,
@@ -55,7 +55,7 @@ def create_product_images(product, num_images=3):
             )
         # Create additional images
         for i in range(1, num_images):
-            img = download_image(800, 600, ['electronics', 'technology'])
+            img = download_image(800, 600, [product.category[:-1]])
             if img:
                 ProductImage.objects.create(
                     product=product,
@@ -121,8 +121,9 @@ def create_laptop(product_type, category, specs_base):
         price=fake.random_int(800, 3500),
         original_price=fake.random_int(900, 3700),
         rating=fake.random_int(3, 5),
-        is_new=fake.boolean(chance_of_getting_true=70)
     )
+    product.is_new=fake.boolean(chance_of_getting_true=40) # Set after as it saves the instance
+                                                           # which conflicts with creation
     specs = {
         'Processor': f"{specs_base['cpu']} {fake.random_element(['i7', 'Ryzen 9', 'i9'])}",
         'RAM': f"{fake.random_element([16, 32, 64])}GB DDR{fake.random_element([4, 5])}",
@@ -132,7 +133,7 @@ def create_laptop(product_type, category, specs_base):
     } 
     for key, value in specs.items():
         ProductSpec.objects.create(product=product, key=key, value=value)
-    print(f"Creating {name}...")
+    print(f"Creating Images for {name}...")
     create_product_images(product, num_images=random.randint(3, 5))
     return product
 
@@ -150,8 +151,8 @@ def create_gpu(product_type, category):
         price=fake.random_int(500, 2000),
         original_price=fake.random_int(600, 2200),
         rating=fake.random_int(4, 5),
-        is_new=fake.boolean(chance_of_getting_true=40)
     )
+    product.is_new=fake.boolean(chance_of_getting_true=40)
     specs = {
         'VRAM': f"{fake.random_element([12, 16, 24])}GB GDDR{fake.random_element([6, 6, 6, 6, 7])}X",
         'Clock Speed': f"{fake.random_int(1500, 2500)} MHz",
@@ -163,8 +164,36 @@ def create_gpu(product_type, category):
     }
     for key, value in specs.items():
         ProductSpec.objects.create(product=product, key=key, value=value)
-    print(f"Creating {name}...")
-    create_product_images(product, num_images=random.randint(2, 4))
+    print(f"Creating Images for {name}...")
+    create_product_images(product, num_images=random.randint(2, 3))
+    return product
+
+def create_cpu(product_type, category):
+    model = fake.random_element([
+        'AMD Ryzen 7', 'AMD Ryzen 6', 'Intel Core i7', 'Intel Core i9'
+    ])
+    name = f"{fake.company()} {model}"
+    product = Product.objects.create(
+        name=name,
+        slug=name.lower().replace(' ', '-'),
+        description=fake.paragraph(nb_sentences=8),
+        category=category,
+        product_type=product_type,
+        price=fake.random_int(500, 2000),
+        original_price=fake.random_int(600, 2200),
+        rating=fake.random_int(4, 5),
+    )
+    product.is_new=fake.boolean(chance_of_getting_true=40)
+    specs = {
+        'Cores': f"{fake.random_element([2, 4, 8, 16])}",
+        'Clock Speed': f"{fake.random_int(2500, 4500)} MHz",
+    }
+    if "Intel" in model:
+        specs["Generation"] = fake.random_int(5, 13)
+    for key, value in specs.items():
+        ProductSpec.objects.create(product=product, key=key, value=value)
+    print(f"Creating Images for {name}...")
+    create_product_images(product, num_images=2)
     return product
 
 def generate_sample_data():
@@ -179,16 +208,56 @@ def generate_sample_data():
     print("\nGenerating products:")
     # Generate Gaming Laptops
     print("- Gaming Laptops")
-    for _ in range(8):
+    for _ in range(3):
         create_laptop(
             product_types['Gaming Laptops'],
             categories['Laptops'],
             {'cpu': fake.random_element(['Intel', 'AMD']), 'gpu': 'RTX 4070'}
         )
+    # Generate Gaming PCs
+    print("- Gaming PCs")
+    for _ in range(2):
+        create_laptop(
+            product_types['Gaming PCs'],
+            categories['Desktops'],
+            {'cpu': fake.random_element(['Intel', 'AMD']), 'gpu': 'RTX 5090'}
+        )
+    
+    # categories = {
+    #     'Laptops': Category.objects.get(name='Laptops'),
+    #     'Desktops': Category.objects.get(name='Desktops'),
+    #     'Components': Category.objects.get(name='Components')
+    # }
+    
+    # product_types = {
+    #     # Laptops
+    #     'Gaming Laptops': ProductType.objects.get(
+    #         name='Gaming Laptops',
+    #     ),
+    #     'Ultrabooks': ProductType.objects.get(
+    #         name='Ultrabooks',
+    #     ),
+    #     # Desktops
+    #     'Gaming PCs': ProductType.objects.get(
+    #         name='Gaming PCs',
+    #     ),
+    #     # Components
+    #     'GPUs': ProductType.objects.get(
+    #         name='Graphics Cards',
+    #     ),
+    #     'CPUs': ProductType.objects.get(
+    #         name='Processors',
+    #     )
+    # }
+    
     # Generate GPUs
     print("- Graphics Cards")
-    for _ in range(6):
+    for _ in range(2):
         create_gpu(product_types['GPUs'], categories['Components'])
+    # Generate CPUs
+    print("- CPU")
+    for _ in range(2):
+        create_cpu(product_types['CPUs'], categories['Components'])
     print("\nSample data generation complete!")
 
 # if __name__ == '__main__':
