@@ -5,7 +5,9 @@ import requests
 from io import BytesIO
 from PIL import Image
 import random
+from dotenv import load_dotenv
 
+load_dotenv()
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecommerce.settings')
 django.setup()
@@ -19,7 +21,7 @@ fake = Faker()
 
 def download_image(width=800, height=600, tech_keywords=['computer', 'laptop', 'cpu', 'gpu']):
     """Download random tech image using official Unsplash API"""
-    ACCESS_KEY = 'os.environ['UNSPLASH_ACCESS_KEY']'
+    ACCESS_KEY = os.environ['UNSPLASH_ACCESS_KEY']
     keyword = random.choice(tech_keywords)
     
     try:
@@ -55,7 +57,9 @@ def create_product_images(product: Product, num_images=3):
             )
         # Create additional images
         for i in range(1, num_images):
-            img = download_image(800, 600, [product.category[:-1]])
+            key = str(product.category)[:-1]
+            if key == "Component": key = "Tech Component"
+            img = download_image(800, 600, [key])
             if img:
                 ProductImage.objects.create(
                     product=product,
@@ -111,7 +115,9 @@ def create_product_types(categories):
     }
 
 def create_laptop(product_type, category, specs_base):
-    name = f"{fake.company()} {fake.random_element(['Predator', 'Nitro', 'Zenith', 'Vortex'])} {fake.random_int(3000, 9000)}"
+    name = f"""{fake.random_element(['HP', 'Shock', 'Dell', 'Asus'])} 
+    {fake.random_element(['Predator', 'Nitro', 'Zenith', 'Vortex'])} 
+    {fake.random_int(3000, 9000)}"""
     product = Product.objects.create(
         name=name,
         slug=name.lower().replace(' ', '-'),
